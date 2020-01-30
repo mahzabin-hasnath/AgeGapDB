@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" media="screen" href = "{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" media="screen" href = "{{ url_for('static', filename='css/bootstrap.css') }}">
+    <title>AgeGap DB</title>
+  </head>
+  <body>
+
+    <nav class="navbar navbar-light bg-light">
+      <a class="navbar-brand">AgeGap DB</a>
+      <form class="form-inline">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+      </form>
+    </nav>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4">
+          <p>{{movie.title}} ({{movie.year}})</p>
+          <p>Director: {{movie.director}}</p>
+          <img src="{{ url_for('static', filename = movie.poster) }}" alt="Movie Poster" height='250' width="200">
+          <p>{{movie.synopsis}}</p>
+
+        </div>
+
+        <div class="col-md-8">
+          {% for pair in pairs %}
+          <div class="row">
+            <p>{{pair.relation}}</p>
+
+            <div class="col-md-6">
+              <p>{{pair.love_interest1}}</p>
+              <p><img src="{{ url_for('static', filename = pair.pic1) }}" alt="Actor Picture" height='250' width="250"></p>
+            </div>
+
+            <div class="col-md-6">
+              <p>{{pair.love_interest2}}</p>
+              <p><img src="{{ url_for('static', filename = pair.pic2) }}" alt="Actor Picture" height='250' width="250"></p>
+            </div>
+
+            <p>Guess the age difference:
+              <input type="text" id="guess" name="guess" placeholder="e.g., 5"> years
+            </p>
+          </div>
+
+          {% endfor %}
+          <button type="button" class="btn btn-primary">Guess</button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+  </body>
+</html>

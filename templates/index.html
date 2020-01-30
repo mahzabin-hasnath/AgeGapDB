@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" media="screen" href = "{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" media="screen" href = "{{ url_for('static', filename='css/bootstrap.css') }}">
+    <title>AgeGap DB</title>
+  </head>
+  <body>
+
+    <nav class="navbar navbar-light bg-light">
+      <a class="navbar-brand">AgeGap DB</a>
+      <form class="form-inline">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+      </form>
+    </nav>
+
+    <div class="container">
+      {% for movie in movies %}
+        <p><a href="{{ url_for('title', id=movie["movie_id"]) }}">{{movie.title}} ({{movie.year}})</a></p>
+        <img src="{{ url_for('static', filename = movie.poster) }}" alt="Movie Poster" height='250' width="200">
+      {% endfor %}
+    </div>
+
+  </body>
+</html>
