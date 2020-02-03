@@ -1,5 +1,6 @@
 from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
+import datetime
 
 app = Flask(__name__)
 app.debug = True
@@ -75,5 +76,24 @@ def title(id):
     movie = Movies.query.filter_by(movie_id = id).first()
     # actors = Actors.query.join(cast).join(Movies).filter(cast.c.movie_id == id).all()
     pairs = Pairings.query.filter_by(title = movie.title).all()
+    current_year = datetime.date.today().year
 
-    return render_template("title.html", movie=movie, pairs=pairs)
+    infos = []
+
+    for pair in pairs:
+        actor1 = Actors.query.filter_by(name = pair.love_interest1).first()
+        actor2 = Actors.query.filter_by(name = pair.love_interest2).first()
+        actor1_age = current_year -  actor1.birth_year
+        actor2_age = current_year -  actor2.birth_year
+        age_gap = abs(actor1_age - actor2_age)
+        relation = pair.relation
+        love1 = pair.love_interest1
+        love1_pic = pair.pic1
+        love2 = pair.love_interest2
+        love2_pic = pair.pic2
+        infos.append((relation, love1, love1_pic, love2, love2_pic, actor1_age, actor2_age, age_gap))
+
+
+
+
+    return render_template("title.html", movie=movie, infos=infos)
