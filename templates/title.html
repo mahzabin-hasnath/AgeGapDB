@@ -3,6 +3,7 @@
   <head>
     <link rel="stylesheet" media="screen" href = "{{ url_for('static', filename='css/bootstrap.min.css') }}">
     <link rel="stylesheet" media="screen" href = "{{ url_for('static', filename='css/bootstrap.css') }}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <title>AgeGap DB</title>
   </head>
   <body>
@@ -26,33 +27,58 @@
         </div>
 
         <div class="col-md-8">
-          {% for pair in pairs %}
+          {% for info in infos %}
           <div class="row">
-            <p>{{pair.relation}}</p>
+            <p>Relationship</p>
+            <p>{{info.0}}</p>
 
             <div class="col-md-6">
-              <p>{{pair.love_interest1}}</p>
-              <p><img src="{{ url_for('static', filename = pair.pic1) }}" alt="Actor Picture" height='250' width="250"></p>
+              <p>{{info.1}}</p>
+              <p><img src="{{ url_for('static', filename = info.2) }}" alt="Actor Picture" height='250' width="250"></p>
+              <p style="display:none" class="answer">{{info.5}} years old</p>
             </div>
 
             <div class="col-md-6">
-              <p>{{pair.love_interest2}}</p>
-              <p><img src="{{ url_for('static', filename = pair.pic2) }}" alt="Actor Picture" height='250' width="250"></p>
+              <p>{{info.3}}</p>
+              <p><img src="{{ url_for('static', filename = info.4) }}" alt="Actor Picture" height='250' width="250"></p>
+              <p style="display:none" class="answer">{{info.6}} years old</p>
             </div>
 
             <p>Guess the age difference:
-              <input type="text" id="guess" name="guess" placeholder="e.g., 5"> years
+              <input type="text" id="guess-input" name="guess" placeholder="e.g., 5"> years
             </p>
+
+            <div style="display:none" class="answer">
+              <p id="user-answer"></p>
+              <p>actual answer: {{info.7}} years</p>
+            </div>
           </div>
 
           {% endfor %}
-          <button type="button" class="btn btn-primary">Guess</button>
+
+          <button type="button" class="btn btn-primary" id="guess-button">Guess</button>
 
         </div>
-
       </div>
-
     </div>
+
+    <script>
+    $("#guess-button").click(function () {
+      console.log('test');
+      if($('#guess-input').val() == ''){
+        alert("Please input a value.");
+      }
+      else {
+        console.log('success');
+        var userAnswer = document.getElementById("user-answer");
+        var userGuess = $("#guess-input").val();
+        userAnswer.innerHTML = "Your answer: "
+        userAnswer.innerHTML += userGuess + " years"
+        $( ".answer" ).show();
+      }
+    });
+
+    </script>
 
 
   </body>
